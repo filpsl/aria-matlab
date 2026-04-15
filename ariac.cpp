@@ -20,7 +20,6 @@
  robots@mobilerobots.com or
  Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-
 #include "ArArgumentParser.h"
 #include "ArCommands.h"
 #include "ArExport.h"
@@ -29,6 +28,7 @@
 #include "ArRobotConnector.h"
 #include "ariaInternal.h"
 
+#undef printf
 #ifndef AREXPORT
 #error ARIA headers did not define AREXPORT
 #endif
@@ -38,7 +38,10 @@
 #ifdef MATLAB
 #include <mex.h>
 
-AREXPORT void mexLog(const char *s) { printf("aria: %s\n", s); }
+AREXPORT void mexLog(const char *s) {
+  fprintf(stdout, "aria: %s\n", s);
+  fflush(stdout);
+}
 #endif
 
 /* Ideas for changes or additions:

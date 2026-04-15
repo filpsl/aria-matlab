@@ -69,7 +69,7 @@ switch computer
 		disp 'You are on Linux 32 bit. Will attempt to use libAria.so and libariac.so.';
     case 'GLNXA64'
 		ariainstdir = '/usr/local/Aria'
-        ariaclink = '-L. -lariac'
+        ariaclink = '-L../lib -lariac'
         arialink = '-L../lib -lAria'
         ariadll = '../lib/libAria.so'
 		disp 'You are on Linux 64 bit. Will attempt to use libAria.so and libariac.so.';
