@@ -3,11 +3,16 @@
 /* MEX function for Matlab */
 
 #include "mex.h"
+#include <stdio.h>
 #include <string.h>
+#undef printf
 #define MATLAB 1
 #include "ariac.h"
 
-void mexLog(const char *s) { printf("aria: %s\n", s); }
+void mexLog(const char *s) {
+  fprintf(stdout, "aria: %s\n", s);
+  fflush(stdout);
+}
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
@@ -27,19 +32,23 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
   snlen = strlen(scriptname);
   argv[0] = (char *)malloc(snlen + 1);
   strncpy(argv[0], scriptname, snlen);
-  printf("nrhs=%d, argv[0]=%s\n", nrhs, argv[0]);
+  fprintf(stdout, "nrhs=%d, argv[0]=%s\n", nrhs, argv[0]);
+  fflush(stdout);
   for (ai = 1, pi = 0; pi < nrhs; ++pi, ++ai) {
     memset(buf, 0, 256);
     if (mxGetString(prhs[pi], buf, 255) != 0) {
-      printf("aria_init: error copying argument %d from matlab. not a "
-             "string or too long. aborting without initializing aria.");
+      fprintf(stdout,
+              "aria_init: error copying argument %d from matlab. not a "
+              "string or too long. aborting without initializing aria.");
+      fflush(stdout);
       return;
     }
-    printf("prhs[%d]=%s\n", pi, buf);
+    fprintf(stdout, "prhs[%d]=%s\n", pi, buf);
     n = strlen(buf);
     argv[ai] = (char *)malloc(n + 1);
     strncpy(argv[ai], buf, n + 1);
-    printf("argv[%d]=%s\n", ai, argv[ai]);
+    fprintf(stdout, "argv[%d]=%s\n", ai, argv[ai]);
+    fflush(stdout);
   }
 
   aria_init(nrhs + 1, argv);
